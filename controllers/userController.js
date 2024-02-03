@@ -57,10 +57,8 @@ const getFavorites = async (req, res) => {
 const addAmbienceToFavourite = async (req, res) => {
     const { userId, ambienceId } = req.body;
 
-    console.log(userId);
     const user = await User.findById(userId);
 
-    console.log(user);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -80,9 +78,33 @@ const addAmbienceToFavourite = async (req, res) => {
 
 }
 
+const removeAmbienceFromFavourites = async (req, res) => {
+  const { userId, ambienceId } = req.body;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(ambienceId)) {
+    return res.status(404).json({error: 'Invalid ambience ID'});
+  }
+
+  if (!user.favourites.includes(ambienceId)) {
+    return res.status(404).json({error: 'Ambince not in favourites'});
+  }
+
+  user.favourites.remove(ambienceId);
+  await user.save();
+
+  res.status(200).json({ message: `Ambience: "${ambienceId}" removed from user: "${userId}" favorites successfully` });
+}
+
 module.exports = { 
   signupUser, 
   loginUser,
   getFavorites, 
-  addAmbienceToFavourite
+  addAmbienceToFavourite,
+  removeAmbienceFromFavourites
 }

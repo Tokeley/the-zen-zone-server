@@ -5,7 +5,8 @@ const {
     loginUser, 
     signupUser,
     getFavorites,
-    addAmbienceToFavourite
+    addAmbienceToFavourite,
+    removeAmbienceFromFavourites
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -21,5 +22,8 @@ router.get('/getFavourites', getFavorites);
 
 // add ambience to favourites
 router.post('/addAmbienceToFavourites', addAmbienceToFavourite);
+
+// remove ambience to favourites
+router.post('/removeAmbienceFromFavourites', removeAmbienceFromFavourites);
 
 module.exports = router;
