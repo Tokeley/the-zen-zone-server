@@ -54,9 +54,19 @@ const deleteAmbience = async (req, res) => {
   res.status(200).json(ambience)
 }
 
+// get a random ambience
+const getRandomAmbience = async (req, res) => {
+  const ambiences = await Ambience.find({}).sort({createdAt: -1})
+  const index = Math.floor(Math.random() * ambiences.length);
+  const randomAmbience = ambiences[index]
+
+  res.status(200).json(randomAmbience)
+}
+
 
 module.exports = {
   getAmbiences,
   createAmbience,
-  deleteAmbience
+  deleteAmbience,
+  getRandomAmbience
 }
