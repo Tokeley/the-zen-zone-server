@@ -38,7 +38,7 @@ const signupUser = async (req, res) => {
   }
 }
 
-// get user's favoutite ambiences
+// get user's favoutite soundscapes
 const getFavorites = async (req, res) => {
     const { userId } = req.body;
 
@@ -53,9 +53,9 @@ const getFavorites = async (req, res) => {
     res.status(200).json({ favorites });
 };
 
-// add ambience to user's favourites
-const addAmbienceToFavourite = async (req, res) => {
-    const { userId, ambienceId } = req.body;
+// add soundscape to user's favourites
+const addSoundscapeToFavourite = async (req, res) => {
+    const { userId, soundscapeId } = req.body;
 
     const user = await User.findById(userId);
 
@@ -63,23 +63,23 @@ const addAmbienceToFavourite = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(ambienceId)) {
-      return res.status(404).json({error: 'Invalid ambience ID'});
+    if (!mongoose.Types.ObjectId.isValid(soundscapeId)) {
+      return res.status(404).json({error: 'Invalid soundscape ID'});
     }
 
-    if (user.favourites.includes(ambienceId)) {
+    if (user.favourites.includes(soundscapeId)) {
       return res.status(404).json({error: 'Ambince already in favourites'});
     }
 
-    user.favourites.push(ambienceId);
+    user.favourites.push(soundscapeId);
     await user.save();
 
-    res.status(200).json({ message: `Ambience: "${ambienceId}" added to user: "${userId}" favorites successfully` });
+    res.status(200).json({ message: `Soundscape: "${soundscapeId}" added to user: "${userId}" favorites successfully` });
 
 }
 
-const removeAmbienceFromFavourites = async (req, res) => {
-  const { userId, ambienceId } = req.body;
+const removeSoundscapeFromFavourites = async (req, res) => {
+  const { userId, soundscapeId } = req.body;
 
   const user = await User.findById(userId);
 
@@ -87,24 +87,24 @@ const removeAmbienceFromFavourites = async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
 
-  if (!mongoose.Types.ObjectId.isValid(ambienceId)) {
-    return res.status(404).json({error: 'Invalid ambience ID'});
+  if (!mongoose.Types.ObjectId.isValid(soundscapeId)) {
+    return res.status(404).json({error: 'Invalid soundscape ID'});
   }
 
-  if (!user.favourites.includes(ambienceId)) {
+  if (!user.favourites.includes(soundscapeId)) {
     return res.status(404).json({error: 'Ambince not in favourites'});
   }
 
-  user.favourites.remove(ambienceId);
+  user.favourites.remove(soundscapeId);
   await user.save();
 
-  res.status(200).json({ message: `Ambience: "${ambienceId}" removed from user: "${userId}" favorites successfully` });
+  res.status(200).json({ message: `Soundscape: "${soundscapeId}" removed from user: "${userId}" favorites successfully` });
 }
 
 module.exports = { 
   signupUser, 
   loginUser,
   getFavorites, 
-  addAmbienceToFavourite,
-  removeAmbienceFromFavourites
+  addSoundscapeToFavourite,
+  removeSoundscapeFromFavourites
 }

@@ -17,7 +17,7 @@ const userSchema = new Schema({
   favourites: [
     {
       type: mongoose.Types.ObjectId,
-      ref: "Ambience"
+      ref: "Soundscape"
     },
   ],
 })

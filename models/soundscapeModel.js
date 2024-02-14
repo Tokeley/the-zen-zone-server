@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-const ambienceSchema = new Schema({
+const soundscapeSchema = new Schema({
     title: {
         type: String,
         requierd: true
@@ -17,4 +17,4 @@ const ambienceSchema = new Schema({
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model('Ambience', ambienceSchema)
+module.exports = mongoose.model('Soundscape', soundscapeSchema)
