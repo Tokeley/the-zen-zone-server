@@ -4,9 +4,11 @@ const express = require('express');
 const { 
     loginUser, 
     signupUser,
-    getFavorites,
+    postFavorites,
     addSoundscapeToFavourite,
-    removeSoundscapeFromFavourites
+    removeSoundscapeFromFavourites,
+    postMixes,
+    addMix,
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -18,12 +20,21 @@ router.post('/login', loginUser);
 router.post('/signup', signupUser);
 
 // get favoutites route
-router.get('/getFavourites', getFavorites);
+router.post('/getFavourites', postFavorites);
 
 // add soundscape to favourites
 router.post('/addSoundscapeToFavourites', addSoundscapeToFavourite);
 
 // remove soundscape to favourites
 router.post('/removeSoundscapeFromFavourites', removeSoundscapeFromFavourites);
+
+// get favoutites route
+router.post('/getMixes', postMixes);
+
+// add soundscape to favourites
+router.post('/addMix', addMix);
+
+// remove soundscape to favourites
+//router.post('/removeMix', removeMix);
 
 module.exports = router;

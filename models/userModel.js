@@ -20,6 +20,12 @@ const userSchema = new Schema({
       ref: "Soundscape"
     },
   ],
+  mixes: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Mix"
+    }
+  ]
 })
 
 // static signup method
