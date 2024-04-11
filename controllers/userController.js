@@ -155,15 +155,41 @@ const addMix = async (req, res) => {
     const mix = await Mix.makeMix(mixData);
     user.mixes.push(mix);
     await user.save();
-    
+
     // Respond with the created mix
     res.status(200).json({ userId, mix });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-
   
 };
+
+const removeMix = async (req, res) => {
+  const { userId, mixId } = req.body;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(mixId)) {
+    return res.status(404).json({error: 'Invalid mix ID'});
+  }
+
+  if (!user.mixes.includes(mixId)) {
+    return res.status(404).json({error: 'Mix not in mixes'});
+  }
+
+  user.mixes.remove(mixId);
+  await user.save();
+
+  // Populate the favourites array with actual soundscape documents
+  await user.populate('mixes');
+
+  // Return the updated user favorites
+  res.status(200).json({ mixes: user.mixes });
+}
 
 module.exports = { 
   signupUser, 
@@ -172,5 +198,6 @@ module.exports = {
   addSoundscapeToFavourite,
   removeSoundscapeFromFavourites,
   postMixes,
-  addMix
+  addMix,
+  removeMix
 }

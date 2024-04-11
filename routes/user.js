@@ -9,6 +9,7 @@ const {
     removeSoundscapeFromFavourites,
     postMixes,
     addMix,
+    removeMix
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -35,6 +36,6 @@ router.post('/getMixes', postMixes);
 router.post('/addMix', addMix);
 
 // remove soundscape to favourites
-//router.post('/removeMix', removeMix);
+router.post('/removeMix', removeMix);
 
 module.exports = router;
