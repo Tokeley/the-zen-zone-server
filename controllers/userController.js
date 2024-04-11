@@ -145,6 +145,7 @@ const addMix = async (req, res) => {
 
   const user = await User.findById(userId);
 
+
   if (!user) {
     return res.status(404).json({ error: "User not found" });
   }
@@ -152,12 +153,16 @@ const addMix = async (req, res) => {
   try {
     
     const mix = await Mix.makeMix(mixData);
-
+    user.mixes.push(mix);
+    await user.save();
+    
     // Respond with the created mix
     res.status(200).json({ userId, mix });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+
+  
 };
 
 module.exports = { 
