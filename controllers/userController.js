@@ -141,7 +141,7 @@ const postMixes = async (req, res) => {
 
 // create mix, and add to user mixes
 const addMix = async (req, res) => {
-  const { userId, mix: mixData } = req.body;
+  const { userId, mix: mixData , title} = req.body;
 
   const user = await User.findById(userId);
 
@@ -150,9 +150,13 @@ const addMix = async (req, res) => {
     return res.status(404).json({ error: "User not found" });
   }
 
+  if (!title) {
+    return res.status(404).json({ error: "Title required" });
+  }
+
   try {
     
-    const mix = await Mix.makeMix(mixData);
+    const mix = await Mix.makeMix(title, mixData);
     user.mixes.push(mix);
     await user.save();
 

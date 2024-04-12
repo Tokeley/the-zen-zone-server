@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const mixSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+    unique: true
+  },
   mix: [
     {
       soundscape: {
@@ -24,13 +29,13 @@ const mixSchema = new Schema({
   ]
 }, { timestamps: true });
 
-mixSchema.statics.makeMix = async function (mixData){
+mixSchema.statics.makeMix = async function (title, mixData){
   if (!mixData || !Array.isArray(mixData) || mixData.length === 0) {
     throw new Error('Mix data must be a non-empty array');
   }
 
   // Create a new mix document
-  const mix = await this.create({ mix: mixData });
+  const mix = await this.create({ title: title, mix: mixData });
 
   return mix
 }
