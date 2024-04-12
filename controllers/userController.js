@@ -154,6 +154,10 @@ const addMix = async (req, res) => {
     return res.status(404).json({ error: "Title required" });
   }
 
+  if (user.mixes.some(item => item.title === title)){
+    return res.status(404).json({ error: "Title already in use" });
+  }
+
   try {
     
     const mix = await Mix.makeMix(title, mixData);
