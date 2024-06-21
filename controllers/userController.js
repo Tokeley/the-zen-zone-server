@@ -128,7 +128,13 @@ const removeSoundscapeFromFavourites = async (req, res) => {
 const postMixes = async (req, res) => {
   const { userId } = req.body;
 
-  const user = await User.findById(userId).populate('mixes');
+  const user = await User.findById(userId).populate({
+    path: 'mixes',
+    populate: {
+      path: 'mix.soundscape', // Update the path to 'mix.soundscape'
+      model: 'Soundscape'
+    }
+  });
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
@@ -143,7 +149,7 @@ const postMixes = async (req, res) => {
 const addMix = async (req, res) => {
   const { userId, mix: mixData , title} = req.body;
 
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).populate('mixes');
 
 
   if (!user) {
@@ -164,8 +170,9 @@ const addMix = async (req, res) => {
     user.mixes.push(mix);
     await user.save();
 
-    // Respond with the created mix
-    res.status(200).json({ userId, mix });
+    // Respond with the mixes
+    const mixes = user.mixes;
+    res.status(200).json({ mixes });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -175,7 +182,7 @@ const addMix = async (req, res) => {
 const removeMix = async (req, res) => {
   const { userId, mixId } = req.body;
 
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).populate('mixes');
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
@@ -185,11 +192,13 @@ const removeMix = async (req, res) => {
     return res.status(404).json({error: 'Invalid mix ID'});
   }
 
-  if (!user.mixes.includes(mixId)) {
-    return res.status(404).json({error: 'Mix not in mixes'});
+  const mixIndex = user.mixes.findIndex(mix => mix._id.toString() === mixId);
+  
+  if (mixIndex === -1) {
+    return res.status(404).json({ error: 'Mix not in mixes' });
   }
 
-  user.mixes.remove(mixId);
+  user.mixes.splice(mixIndex, 1); // Remove the mix from the array
   await user.save();
 
   // Populate the favourites array with actual soundscape documents
