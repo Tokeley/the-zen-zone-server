@@ -45,8 +45,7 @@ const signupUser = async (req, res) => {
 
 // get user's favoutite soundscapes
 const postFavorites = async (req, res) => {
-    const { userId } = req.body;
-
+    const userId = req.user._id;
     const user = await User.findById(userId).populate('favourites');
 
     if (!user) {
@@ -60,7 +59,8 @@ const postFavorites = async (req, res) => {
 
 // add soundscape to user's favourites
 const addSoundscapeToFavourite = async (req, res) => {
-    const { userId, soundscapeId } = req.body;
+    const userId = req.user._id;
+    const {soundscapeId } = req.body;
   
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(404).json({error: 'Invalid user ID'});
@@ -98,7 +98,8 @@ const addSoundscapeToFavourite = async (req, res) => {
 }
 
 const removeSoundscapeFromFavourites = async (req, res) => {
-  const { userId, soundscapeId } = req.body;
+  const userId = req.user._id;
+  const { soundscapeId } = req.body;
 
   const user = await User.findById(userId);
 
@@ -126,7 +127,7 @@ const removeSoundscapeFromFavourites = async (req, res) => {
 
 // get user's mixes
 const postMixes = async (req, res) => {
-  const { userId } = req.body;
+  const userId = req.user._id;
 
   const user = await User.findById(userId).populate({
     path: 'mixes',
@@ -147,7 +148,8 @@ const postMixes = async (req, res) => {
 
 // create mix, and add to user mixes
 const addMix = async (req, res) => {
-  const { userId, mix: mixData , title} = req.body;
+  const userId = req.user._id;
+  const { mix: mixData , title} = req.body;
 
   const user = await User.findById(userId).populate('mixes');
 
@@ -180,7 +182,8 @@ const addMix = async (req, res) => {
 };
 
 const removeMix = async (req, res) => {
-  const { userId, mixId } = req.body;
+  const userId = req.user._id;
+  const { mixId } = req.body;
 
   const user = await User.findById(userId).populate('mixes');
 

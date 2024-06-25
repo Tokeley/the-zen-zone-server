@@ -12,30 +12,22 @@ const {
     removeMix
 } = require('../controllers/userController');
 
+const requireAuth = require('../controllers/authController');
+
 const router = express.Router();
 
-// login route
+// public routes
 router.post('/login', loginUser);
-
-// signup route
 router.post('/signup', signupUser);
 
-// get favoutites route
+// Protected routes
+router.use(requireAuth);
+
 router.post('/getFavourites', postFavorites);
-
-// add soundscape to favourites
 router.post('/addSoundscapeToFavourites', addSoundscapeToFavourite);
-
-// remove soundscape to favourites
 router.post('/removeSoundscapeFromFavourites', removeSoundscapeFromFavourites);
-
-// get favoutites route
 router.post('/getMixes', postMixes);
-
-// add soundscape to favourites
 router.post('/addMix', addMix);
-
-// remove soundscape to favourites
 router.post('/removeMix', removeMix);
 
 module.exports = router;
