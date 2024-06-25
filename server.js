@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const soundscapeRoutes = require('./routes/soundscapes')
 const userRoutes = require('./routes/user')
+const mixRoutes = require('./routes/mixes')
 
 // express app
 const app = express()
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 // routes
 app.use('/api/soundscapes', soundscapeRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/mixes', mixRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
