@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors'); // Add this line to import the cors package
 const soundscapeRoutes = require('./routes/soundscapes')
 const userRoutes = require('./routes/user')
 const mixRoutes = require('./routes/mixes')
