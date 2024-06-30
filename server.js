@@ -12,7 +12,7 @@ const app = express()
 
 app.use(cors(
   {
-    origin: ["https://the-zen-zone-client.vercel.app"],
+    origin: ["https://www.thezenzone.app/"],
     methods: ["POST", "GET"],
     credentials: true
   }
