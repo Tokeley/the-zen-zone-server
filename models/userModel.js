@@ -28,14 +28,10 @@ const userSchema = new Schema({
   ]
 })
 
-function isCustomStrongPassword(password) {
-  const hasNumber = /\d/;
-  const hasLetter = /[a-zA-Z]/;
-  return password.length > 8 && hasNumber.test(password) && hasLetter.test(password);
-}
-
 // static signup method
 userSchema.statics.signup = async function(email, password) {
+  const hasNumber = /\d/;
+  const hasLetter = /[a-zA-Z]/;
 
   // validation
   if (!email || !password) {
@@ -44,8 +40,14 @@ userSchema.statics.signup = async function(email, password) {
   if (!validator.isEmail(email)) {
     throw Error('Email not valid')
   }
-  if (!isCustomStrongPassword(password)) {
-    throw Error('Password not strong enough')
+  if (password.length < 8) {
+    throw Error('Password must be at least 8 characters long')
+  }
+  if (!hasNumber.test(password)) {
+    throw Error('Password must contain a number')
+  }
+  if (!hasLetter.test(password)) {
+    throw Error('Password must contain a letter')
   }
 
   const exists = await this.findOne({ email })
