@@ -57,7 +57,8 @@ const deleteSoundscape = async (req, res) => {
 // get a random soundscape
 const getRandomSoundscape = async (req, res) => {
   const soundscapes = await Soundscape.find({}).sort({createdAt: -1})
-  const index = Math.floor(Math.random() * soundscapes.length);
+  //const index = Math.floor(Math.random() * soundscapes.length);
+  const index = 5;
   const randomSoundscape = soundscapes[index]
 
   res.status(200).json(randomSoundscape)
