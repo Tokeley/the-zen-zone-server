@@ -6,6 +6,7 @@ const cors = require('cors'); // Add this line to import the cors package
 const soundscapeRoutes = require('./routes/soundscapes')
 const userRoutes = require('./routes/user')
 const mixRoutes = require('./routes/mixes')
+const feedbackRoutes = require('./routes/feedback');
 
 // express app
 const app = express()
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 app.use('/api/soundscapes', soundscapeRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/mixes', mixRoutes)
+app.use('/api/feedback', feedbackRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
